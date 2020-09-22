@@ -2,7 +2,7 @@
 
 members = [
     "bench-utils",
-    "std-compat",
+    "std",
 ]
 
 [profile.release]
