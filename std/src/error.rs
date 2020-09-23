@@ -1,3 +1,5 @@
+use crate::boxed::Box;
+
 #[cfg(feature = "std")]
 pub use std::error::Error;
 
@@ -9,17 +11,17 @@ pub trait Error: core::fmt::Debug + core::fmt::Display {
 }
 
 #[cfg(not(feature = "std"))]
-impl<'a, E: Error + 'a> From<E> for crate::Box<dyn Error + 'a> {
-    fn from(err: E) -> crate::Box<dyn Error + 'a> {
-        crate::Box::new(err)
+impl<'a, E: Error + 'a> From<E> for Box<dyn Error + 'a> {
+    fn from(err: E) -> Self {
+        Box::new(err)
     }
 }
 
 #[cfg(not(feature = "std"))]
-impl<T: Error> Error for crate::Box<T> {}
+impl<T: Error> Error for Box<T> {}
 
 #[cfg(not(feature = "std"))]
-impl Error for crate::String {}
+impl Error for crate::string::String {}
 
 #[cfg(not(feature = "std"))]
 impl Error for crate::io::Error {}

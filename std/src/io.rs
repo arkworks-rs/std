@@ -1,5 +1,5 @@
 //! no-std io replacement
-use crate::Vec;
+use crate::vec::Vec;
 use core::{cmp, fmt, mem};
 
 #[derive(Debug)]
