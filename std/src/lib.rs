@@ -2,16 +2,44 @@
 
 #[cfg(not(feature = "std"))]
 #[doc(hidden)]
-pub extern crate alloc;
+extern crate alloc;
 
 #[cfg(not(feature = "std"))]
-#[doc(hidden)]
 pub use alloc::*;
 
 #[cfg(not(feature = "std"))]
-#[doc(hidden)]
 pub use core::*;
 
+#[cfg(not(feature = "std"))]
+pub mod fmt {
+    pub use core::fmt::*;
+    pub use alloc::fmt::*;
+
+}
+
+#[cfg(not(feature = "std"))]
+pub mod borrow {
+    pub use core::borrow::*;
+    pub use alloc::borrow::*;
+}
+
+#[cfg(not(feature = "std"))]
+pub mod slice {
+    pub use core::slice::*;
+    pub use alloc::slice::*;
+}
+
+#[cfg(not(feature = "std"))]
+pub mod sync {
+    pub use core::sync::*;
+    pub use alloc::sync::*;
+}
+
+#[cfg(not(feature = "std"))]
+pub mod str {
+    pub use core::str::*;
+    pub use alloc::str::*;
+}
 
 #[cfg(not(feature = "std"))]
 pub mod io;
@@ -20,9 +48,10 @@ pub mod io;
 pub mod error;
 
 #[cfg(feature = "std")]
-#[allow(unused_imports)]
 #[doc(hidden)]
 pub use std::*;
+
+
 
 
 /// Creates parallel iterator over refs if `parallel` feature is enabled.

@@ -1,6 +1,5 @@
 //! no-std io replacement
-use crate::vec::Vec;
-use core::{cmp, fmt, mem};
+use crate::{vec::Vec, cmp, mem, fmt};
 
 #[derive(Debug)]
 pub struct Error;
