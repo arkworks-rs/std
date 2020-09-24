@@ -30,12 +30,6 @@ pub mod slice {
 }
 
 #[cfg(not(feature = "std"))]
-pub mod sync {
-    pub use core::sync::*;
-    pub use alloc::sync::*;
-}
-
-#[cfg(not(feature = "std"))]
 pub mod str {
     pub use core::str::*;
     pub use alloc::str::*;
@@ -50,9 +44,6 @@ pub mod error;
 #[cfg(feature = "std")]
 #[doc(hidden)]
 pub use std::*;
-
-
-
 
 /// Creates parallel iterator over refs if `parallel` feature is enabled.
 #[macro_export]
