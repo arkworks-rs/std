@@ -45,6 +45,29 @@ pub mod error;
 #[doc(hidden)]
 pub use std::*;
 
+/// Returns the base-2 logarithm of `x`.
+///
+/// ```
+/// use ark_std::log2;
+///
+/// assert_eq!(log2(16), 4);
+/// assert_eq!(log2(17), 5);
+/// assert_eq!(log2(1), 0);
+/// assert_eq!(log2(0), 0);
+/// assert_eq!(log2(usize::MAX), (core::mem::size_of::<usize>() * 8) as u32);
+/// assert_eq!(log2(1 << 15), 15);
+/// assert_eq!(log2(2usize.pow(18)), 18);
+/// ```
+pub fn log2(x: usize) -> u32 {
+    if x == 0 {
+        0
+    } else if x.is_power_of_two() {
+        1usize.leading_zeros() - x.leading_zeros()
+    } else {
+        0usize.leading_zeros() - x.leading_zeros()
+    }
+}
+
 /// Creates parallel iterator over refs if `parallel` feature is enabled.
 #[macro_export]
 macro_rules! cfg_iter {
