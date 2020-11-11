@@ -12,27 +12,26 @@ pub use core::*;
 
 #[cfg(not(feature = "std"))]
 pub mod fmt {
-    pub use core::fmt::*;
     pub use alloc::fmt::*;
-
+    pub use core::fmt::*;
 }
 
 #[cfg(not(feature = "std"))]
 pub mod borrow {
-    pub use core::borrow::*;
     pub use alloc::borrow::*;
+    pub use core::borrow::*;
 }
 
 #[cfg(not(feature = "std"))]
 pub mod slice {
-    pub use core::slice::*;
     pub use alloc::slice::*;
+    pub use core::slice::*;
 }
 
 #[cfg(not(feature = "std"))]
 pub mod str {
-    pub use core::str::*;
     pub use alloc::str::*;
+    pub use core::str::*;
 }
 
 #[cfg(not(feature = "std"))]
