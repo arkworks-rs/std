@@ -3,6 +3,14 @@
 
 pub use self::inner::*;
 
+#[cfg(feature = "print-trace")]
+pub use std::{
+    format, println,
+    string::ToString,
+    sync::atomic::{AtomicUsize, Ordering},
+    time::Instant,
+};
+
 #[macro_use]
 #[cfg(feature = "print-trace")]
 pub mod inner {
@@ -20,15 +28,17 @@ pub mod inner {
     #[macro_export]
     macro_rules! start_timer {
         ($msg:expr) => {{
-            use std::{sync::atomic::Ordering, time::Instant};
-            use $crate::{compute_indent, Colorize, NUM_INDENT, PAD_CHAR};
+            use $crate::{
+                compute_indent, AtomicUsize, Colorize, Instant, Ordering, ToString, NUM_INDENT,
+                PAD_CHAR,
+            };
 
             let msg = $msg();
             let start_info = "Start:".yellow().bold();
             let indent_amount = 2 * NUM_INDENT.fetch_add(0, Ordering::Relaxed);
             let indent = compute_indent(indent_amount);
 
-            println!("{}{:8} {}", indent, start_info, msg);
+            $crate::println!("{}{:8} {}", indent, start_info, msg);
             NUM_INDENT.fetch_add(1, Ordering::Relaxed);
             $crate::TimerInfo {
                 msg: msg.to_string(),
@@ -43,8 +53,10 @@ pub mod inner {
             end_timer!($time, || "");
         }};
         ($time:expr, $msg:expr) => {{
-            use std::sync::atomic::Ordering;
-            use $crate::{compute_indent, Colorize, NUM_INDENT, PAD_CHAR};
+            use $crate::{
+                compute_indent, format, AtomicUsize, Colorize, Instant, Ordering, ToString,
+                NUM_INDENT, PAD_CHAR,
+            };
 
             let time = $time.time;
             let final_time = time.elapsed();
@@ -73,7 +85,7 @@ pub mod inner {
 
             // Todo: Recursively ensure that *entire* string is of appropriate
             // width (not just message).
-            println!(
+            $crate::println!(
                 "{}{:8} {:.<pad$}{}",
                 indent,
                 end_info,
@@ -87,9 +99,9 @@ pub mod inner {
     #[macro_export]
     macro_rules! add_to_trace {
         ($title:expr, $msg:expr) => {{
-            use std::sync::atomic::Ordering;
             use $crate::{
-                compute_indent, compute_indent_whitespace, Colorize, NUM_INDENT, PAD_CHAR,
+                compute_indent, compute_indent_whitespace, format, AtomicUsize, Colorize, Instant,
+                Ordering, ToString, NUM_INDENT, PAD_CHAR,
             };
 
             let start_msg = "StartMsg".yellow().bold();
@@ -110,9 +122,9 @@ pub mod inner {
 
             // Todo: Recursively ensure that *entire* string is of appropriate
             // width (not just message).
-            println!("{}{}", start_indent, start_msg);
-            println!("{}{}", msg_indent, final_message,);
-            println!("{}{}", start_indent, end_msg);
+            $crate::println!("{}{}", start_indent, start_msg);
+            $crate::println!("{}{}", msg_indent, final_message,);
+            $crate::println!("{}{}", start_indent, end_msg);
         }};
     }
 

@@ -1,17 +1,10 @@
 [package]
 name = "bench-utils"
-version = "0.1.1-alpha.0"
-authors = [
-    "Sean Bowe",
-    "Alessandro Chiesa",
-    "Matthew Green",
-    "Ian Miers",
-    "Pratyush Mishra",
-    "Howard Wu"
-]
-description = "A helper library for profiling performance in ZEXE"
-homepage = "https://libzexe.org"
-repository = "https://github.com/scipr/zexe"
+version = "0.1.0"
+authors = [ "arkworks contributors" ]
+description = "A helper library for profiling performance in arkworks"
+homepage = "https://arkworks.rs"
+repository = "https://github.com/arkworks-rs/utils"
 documentation = "https://docs.rs/bench-utils/"
 keywords = ["profiling"]
 categories = ["development-tools::profiling"]
@@ -25,4 +18,5 @@ edition = "2018"
 colored = { version = "1", optional = true }
 
 [features]
+# also enables the standard library.
 print-trace = [ "colored" ]
