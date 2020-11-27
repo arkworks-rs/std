@@ -1,24 +1,27 @@
-#![cfg_attr(not(feature = "print-trace"), no_std)]
+#![no_std]
 #![allow(unused_imports)]
 
 pub use self::inner::*;
 
-#[cfg(feature = "print-trace")]
-pub use std::{
-    format, println,
-    string::ToString,
-    sync::atomic::{AtomicUsize, Ordering},
-    time::Instant,
-};
+// This isn't needed except for use in the print-trace code below
+#[cfg(feature = "std")]
+extern crate std;
 
 #[macro_use]
 #[cfg(feature = "print-trace")]
 pub mod inner {
     pub use colored::Colorize;
-    use std::sync::atomic::AtomicUsize;
+
+    // print-trace requires std, so these imports are well-defined
+    pub use std::{
+        format, println,
+        string::{String, ToString},
+        sync::atomic::{AtomicUsize, Ordering},
+        time::Instant,
+    };
+
     pub static NUM_INDENT: AtomicUsize = AtomicUsize::new(0);
-    pub const PAD_CHAR: &'static str = "·";
-    use std::time::Instant;
+    pub const PAD_CHAR: &str = "·";
 
     pub struct TimerInfo {
         pub msg: String,
@@ -28,7 +31,7 @@ pub mod inner {
     #[macro_export]
     macro_rules! start_timer {
         ($msg:expr) => {{
-            use $crate::{
+            use $crate::inner::{
                 compute_indent, AtomicUsize, Colorize, Instant, Ordering, ToString, NUM_INDENT,
                 PAD_CHAR,
             };
@@ -53,7 +56,7 @@ pub mod inner {
             end_timer!($time, || "");
         }};
         ($time:expr, $msg:expr) => {{
-            use $crate::{
+            use $crate::inner::{
                 compute_indent, format, AtomicUsize, Colorize, Instant, Ordering, ToString,
                 NUM_INDENT, PAD_CHAR,
             };
