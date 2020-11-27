@@ -18,5 +18,6 @@ edition = "2018"
 colored = { version = "1", optional = true }
 
 [features]
-# also enables the standard library.
-print-trace = [ "colored" ]
+default = []
+std = [] # Not needed except for print-trace
+print-trace = [ "std", "colored" ]
