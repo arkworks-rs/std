@@ -11,8 +11,8 @@ authors = [
     "arkworks contributors"
 ]
 description = "A library for no_std compatibility"
-homepage = "https://arworks.rs"
-repository = "https://github.com/arkworks/utils"
+homepage = "https://arkworks.rs"
+repository = "https://github.com/arkworks-rs/utils"
 documentation = "https://docs.rs/ark-std-compat/"
 keywords = [ "no_std" ]
 categories = ["cryptography"]
