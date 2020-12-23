@@ -71,73 +71,83 @@ pub fn log2(x: usize) -> u32 {
 }
 
 /// Creates parallel iterator over refs if `parallel` feature is enabled.
+#[cfg(feature = "parallel")]
 #[macro_export]
 macro_rules! cfg_iter {
     ($e: expr) => {{
-        #[cfg(feature = "parallel")]
-        let result = $e.par_iter();
-
-        #[cfg(not(feature = "parallel"))]
-        let result = $e.iter();
-
-        result
+        $e.par_iter()
+    }};
+}
+#[cfg(not(feature = "parallel"))]
+#[macro_export]
+macro_rules! cfg_iter {
+    ($e: expr) => {{
+        $e.iter()
     }};
 }
 
 /// Creates parallel iterator over mut refs if `parallel` feature is enabled.
+#[cfg(feature = "parallel")]
 #[macro_export]
 macro_rules! cfg_iter_mut {
     ($e: expr) => {{
-        #[cfg(feature = "parallel")]
-        let result = $e.par_iter_mut();
-
-        #[cfg(not(feature = "parallel"))]
-        let result = $e.iter_mut();
-
-        result
+        $e.par_iter_mut()
+    }};
+}
+#[cfg(not(feature = "parallel"))]
+#[macro_export]
+macro_rules! cfg_iter_mut {
+    ($e: expr) => {{
+        $e.iter_mut()
     }};
 }
 
 /// Creates parallel iterator if `parallel` feature is enabled.
+#[cfg(feature = "parallel")]
 #[macro_export]
 macro_rules! cfg_into_iter {
     ($e: expr) => {{
-        #[cfg(feature = "parallel")]
-        let result = $e.into_par_iter();
-
-        #[cfg(not(feature = "parallel"))]
-        let result = $e.into_iter();
-
-        result
+        $e.into_par_iter()
+    }};
+}
+#[cfg(not(feature = "parallel"))]
+#[macro_export]
+macro_rules! cfg_into_iter {
+    ($e: expr) => {{
+        $e.into_iter()
     }};
 }
 
 /// Returns an iterator over `chunk_size` elements of the slice at a
 /// time.
+#[cfg(feature = "parallel")]
 #[macro_export]
 macro_rules! cfg_chunks {
-    ($e: expr, $size: expr) => {{
-        #[cfg(feature = "parallel")]
-        let result = $e.par_chunks($size);
-
-        #[cfg(not(feature = "parallel"))]
-        let result = $e.chunks($size);
-
-        result
+    ($e:expr, $size:expr) => {{
+        $e.par_chunks($size)
+    }};
+}
+#[cfg(not(feature = "parallel"))]
+#[macro_export]
+macro_rules! cfg_chunks {
+    ($e:expr, $size:expr) => {{
+        $e.chunks($size)
     }};
 }
 
 /// Returns an iterator over `chunk_size` mutable elements of the slice at a
 /// time.
+#[cfg(feature = "parallel")]
 #[macro_export]
 macro_rules! cfg_chunks_mut {
     ($e: expr, $size: expr) => {{
-        #[cfg(feature = "parallel")]
-        let result = $e.par_chunks_mut($size);
-
-        #[cfg(not(feature = "parallel"))]
-        let result = $e.chunks_mut($size);
-
-        result
+        $e.par_chunks_mut($size)
+    }};
+}
+#[cfg(not(feature = "parallel"))]
+#[macro_export]
+macro_rules! cfg_chunks_mut {
+    ($e: expr, $size: expr) => {{
+        $e.chunks_mut($size)
     }};
 }
