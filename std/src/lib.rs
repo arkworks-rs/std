@@ -47,6 +47,9 @@ pub use std::*;
 mod rand;
 pub use self::rand::*;
 
+#[cfg(feature = "parallel")]
+pub use rayon;
+
 /// Returns the base-2 logarithm of `x`.
 ///
 /// ```
@@ -75,6 +78,7 @@ pub fn log2(x: usize) -> u32 {
 #[macro_export]
 macro_rules! cfg_iter {
     ($e: expr) => {{
+        use $crate::rayon::prelude::*;
         $e.par_iter()
     }};
 }
@@ -91,6 +95,7 @@ macro_rules! cfg_iter {
 #[macro_export]
 macro_rules! cfg_iter_mut {
     ($e: expr) => {{
+        use $crate::rayon::prelude::*;
         $e.par_iter_mut()
     }};
 }
@@ -107,6 +112,7 @@ macro_rules! cfg_iter_mut {
 #[macro_export]
 macro_rules! cfg_into_iter {
     ($e: expr) => {{
+        use $crate::rayon::prelude::*;
         $e.into_par_iter()
     }};
 }
@@ -124,6 +130,7 @@ macro_rules! cfg_into_iter {
 #[macro_export]
 macro_rules! cfg_chunks {
     ($e:expr, $size:expr) => {{
+        use $crate::rayon::prelude::*;
         $e.par_chunks($size)
     }};
 }
@@ -141,9 +148,11 @@ macro_rules! cfg_chunks {
 #[macro_export]
 macro_rules! cfg_chunks_mut {
     ($e: expr, $size: expr) => {{
+        use $crate::rayon::prelude::*;
         $e.par_chunks_mut($size)
     }};
 }
+
 #[cfg(not(feature = "parallel"))]
 #[macro_export]
 macro_rules! cfg_chunks_mut {
