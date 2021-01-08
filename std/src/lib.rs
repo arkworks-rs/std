@@ -71,8 +71,19 @@ pub fn log2(x: usize) -> u32 {
 }
 
 /// Creates parallel iterator over refs if `parallel` feature is enabled.
+/// Additionally, if the object being iterated implements `IndexedParallelIterator`,
+/// then one can specify a minimum size for iteration.
 #[macro_export]
 macro_rules! cfg_iter {
+    ($e: expr, $min_len: expr) => {{
+        #[cfg(feature = "parallel")]
+        let result = $e.par_iter().with_min_len($min_len);
+
+        #[cfg(not(feature = "parallel"))]
+        let result = $e.iter();
+
+        result
+    }};
     ($e: expr) => {{
         #[cfg(feature = "parallel")]
         let result = $e.par_iter();
@@ -85,8 +96,19 @@ macro_rules! cfg_iter {
 }
 
 /// Creates parallel iterator over mut refs if `parallel` feature is enabled.
+/// Additionally, if the object being iterated implements `IndexedParallelIterator`,
+/// then one can specify a minimum size for iteration.
 #[macro_export]
 macro_rules! cfg_iter_mut {
+    ($e: expr, $min_len: expr) => {{
+        #[cfg(feature = "parallel")]
+        let result = $e.par_iter_mut().with_min_len($min_len);
+
+        #[cfg(not(feature = "parallel"))]
+        let result = $e.iter_mut();
+
+        result
+    }};
     ($e: expr) => {{
         #[cfg(feature = "parallel")]
         let result = $e.par_iter_mut();
@@ -99,8 +121,19 @@ macro_rules! cfg_iter_mut {
 }
 
 /// Creates parallel iterator if `parallel` feature is enabled.
+/// Additionally, if the object being iterated implements `IndexedParallelIterator`,
+/// then one can specify a minimum size for iteration.
 #[macro_export]
 macro_rules! cfg_into_iter {
+    ($e: expr, $min_len: expr) => {{
+        #[cfg(feature = "parallel")]
+        let result = $e.into_par_iter().with_min_len($min_len);
+
+        #[cfg(not(feature = "parallel"))]
+        let result = $e.into_iter();
+
+        result
+    }};
     ($e: expr) => {{
         #[cfg(feature = "parallel")]
         let result = $e.into_par_iter();
@@ -140,4 +173,36 @@ macro_rules! cfg_chunks_mut {
 
         result
     }};
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+    #[cfg(feature = "parallel")]
+    use rayon::prelude::*;
+
+    #[test]
+    fn test_cfg_macros() {
+        #[cfg(feature = "parallel")]
+        println!("In parallel mode");
+
+        let mut thing = crate::vec![1, 2, 3, 4, 5u64];
+        println!("Iterating");
+        cfg_iter!(&thing).for_each(|i| println!("{:?}", i));
+        println!("Iterating Mut");
+        cfg_iter_mut!(&mut thing).for_each(|i| *i += 1);
+        println!("Iterating By Value");
+        cfg_into_iter!(thing.clone()).for_each(|i| println!("{:?}", i));
+        println!("Chunks");
+        cfg_chunks!(&thing, 2).for_each(|chunk| println!("{:?}", chunk));
+        println!("Chunks Mut");
+        cfg_chunks_mut!(&mut thing, 2).for_each(|chunk| println!("{:?}", chunk));
+
+        println!("Iterating");
+        cfg_iter!(&thing, 3).for_each(|i| println!("{:?}", i));
+        println!("Iterating Mut");
+        cfg_iter_mut!(&mut thing, 3).for_each(|i| *i += 1);
+        println!("Iterating By Value");
+        cfg_into_iter!(thing, 3).for_each(|i| println!("{:?}", i));
+    }
 }

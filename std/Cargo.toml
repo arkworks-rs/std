@@ -1,19 +1,11 @@
 [package]
 name = "ark-std"
 version = "0.1.0"
-authors = [
-    "Sean Bowe",
-    "Alessandro Chiesa",
-    "Matthew Green",
-    "Ian Miers",
-    "Pratyush Mishra",
-    "Howard Wu",
-    "arkworks contributors"
-]
+authors = [ "arkworks contributors" ]
 description = "A library for no_std compatibility"
 homepage = "https://arkworks.rs"
 repository = "https://github.com/arkworks-rs/utils"
-documentation = "https://docs.rs/ark-std-compat/"
+documentation = "https://docs.rs/ark-std/"
 keywords = [ "no_std" ]
 categories = ["cryptography"]
 include = ["Cargo.toml", "src", "README.md", "LICENSE-APACHE", "LICENSE-MIT"]
