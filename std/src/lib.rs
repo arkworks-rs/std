@@ -44,6 +44,7 @@ pub mod error;
 #[doc(hidden)]
 pub use std::*;
 
+pub use rand;
 mod rand;
 pub use self::rand::*;
 
