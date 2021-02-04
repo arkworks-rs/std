@@ -4,6 +4,7 @@ use rand::{
     Rng,
 };
 
+pub use rand;
 pub use rand_xorshift::XorShiftRng;
 
 pub trait UniformRand: Sized {
