@@ -1,6 +1,8 @@
 use rand::distributions::{Distribution, Standard};
 
-pub use rand::{distributions::Uniform, rngs::StdRng, Rng, RngCore, SeedableRng};
+pub use rand;
+
+use rand::rngs::StdRng;
 pub use rand_xorshift::XorShiftRng;
 
 pub trait UniformRand: Sized {
