@@ -44,8 +44,8 @@ pub mod error;
 #[doc(hidden)]
 pub use std::*;
 
-mod rand;
-pub use self::rand::*;
+mod rand_helper;
+pub use rand_helper::*;
 
 /// Returns the base-2 logarithm of `x`.
 ///
