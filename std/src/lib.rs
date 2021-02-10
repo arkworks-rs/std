@@ -47,7 +47,7 @@ pub use std::*;
 mod rand_helper;
 pub use rand_helper::*;
 
-/// Returns the base-2 logarithm of `x`.
+/// Returns the ceiling of the base-2 logarithm of `x`.
 ///
 /// ```
 /// use ark_std::log2;
