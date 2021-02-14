@@ -1,10 +1,10 @@
 <h1 align="center">arkworks::utils</h1>
 
 <p align="center">
-    <img src="https://github.com/arkworks-rs/algebra/workflows/CI/badge.svg?branch=master">
-    <a href="https://github.com/arkworks-rs/algebra/blob/master/LICENSE-APACHE"><img src="https://img.shields.io/badge/license-APACHE-blue.svg"></a>
-    <a href="https://github.com/arkworks-rs/algebra/blob/master/LICENSE-MIT"><img src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
-    <a href="https://deps.rs/repo/github/arkworks-rs/algebra"><img src="https://deps.rs/repo/github/arkworks-rs/algebra/status.svg"></a>
+    <img src="https://github.com/arkworks-rs/utils/workflows/CI/badge.svg?branch=master">
+    <a href="https://github.com/arkworks-rs/utils/blob/master/LICENSE-APACHE"><img src="https://img.shields.io/badge/license-APACHE-blue.svg"></a>
+    <a href="https://github.com/arkworks-rs/utils/blob/master/LICENSE-MIT"><img src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
+    <a href="https://deps.rs/repo/github/arkworks-rs/utils"><img src="https://deps.rs/repo/github/arkworks-rs/utils/status.svg"></a>
 </p>
 
 The arkworks ecosystem consist of Rust libraries for designing and working with __zero knowledge succinct non-interactive arguments (zkSNARKs)__. This repository contains efficient implementations some of the key algebraic components underlying zkSNARKs: finite fields, elliptic curves, and polynomials.
@@ -17,13 +17,8 @@ This library is released under the MIT License and the Apache v2 License (see [L
 
 This repository contains several Rust crates: 
 
-* [`ark-ff`](ff): Provides generic implementations of various finite fields
-* [`ark-ec`](ec): Provides generic implementations for different kinds of elliptic curves, along with pairings over these
-* [`ark-poly`](poly): Implements univariate, multivariate, and multilinear polynomials, and FFTs over finite fields.
-* [`ark-serialize`](serialize): Provides efficient serialization and point compression for finite fields and elliptic curves
-
-In addition, the [`curves`](https://github.com/arkworks-rs/curves) repository contains implementations of popular elliptic curves; see [here](https://github.com/arkworks-rs/curves/README.md) for details.
-
+* [`ark-std`](std): Provides implementations for `no_std` compatibility
+* [`bench-utils`](bench-utils): Provides helper functions for profiling performance in arkworks
 
 ## Build guide
 
@@ -34,8 +29,8 @@ rustup install stable
 
 After that, use `cargo`, the standard Rust build tool, to build the libraries:
 ```bash
-git clone https://github.com/arkworks-rs/algebra.git
-cd algebra
+git clone https://github.com/arkworks-rs/utils.git
+cd utils
 cargo build --release
 ```
 
@@ -51,20 +46,6 @@ To run the benchmarks, install the nightly Rust toolchain, via `rustup install n
 ```bash
 cargo +nightly bench
 ```
-
-## Assembly backend for field arithmetic
-
-The `ark-ff` crate contains (off-by-default) optimized assembly implementations of field arithmetic that rely on the `adcxq`, `adoxq` and `mulxq` instructions. These are available on most `x86_64` platforms (Broadwell onwards for Intel and Ryzen onwards for AMD). Using this backend can lead to a 30-70% speedup in finite field and elliptic curve arithmetic. To build with this backend enabled, run the following command:
-```bash
-RUSTFLAGS="-C target-feature=+bmi2,+adx" cargo +nightly test/build/bench --features asm
-```
-
-To enable this in the `Cargo.toml` of your own projects, enable the `asm` feature flag:
-```
-...
-ark-ff = { version = "0.1", features = [ "asm" ] }
-```
-Note that because inline assembly support in Rust is currently unstable, using this backend requires using the Nightly compiler at the moment.
 
 ## License
 
