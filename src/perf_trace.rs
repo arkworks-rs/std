@@ -1,11 +1,39 @@
-#![no_std]
 #![allow(unused_imports)]
-
+//! This module contains macros for logging to stdout a trace of wall-clock time required
+//! to execute annotated code. One can use this code as follows:
+//! ```
+//! use ark_std::{start_timer, end_timer};
+//! let start = start_timer!(|| "Addition of two integers");
+//! let c = 5 + 7;
+//! end_timer!(start);
+//! ```
+//! The foregoing code should log the following to stdout.
+//! ```text
+//! Start: Addition of two integers
+//! End: Addition of two integers... 1ns
+//! ```
+//!
+//! These macros can be arbitrarily nested, and the nested nature is made apparent
+//! in the output. For example, the following snippet:
+//! ```
+//! use ark_std::{start_timer, end_timer};
+//! let start = start_timer!(|| "Addition of two integers");
+//! let start2 = start_timer!(|| "Inner");
+//! let c = 5 + 7;
+//! end_timer!(start2);
+//! end_timer!(start);
+//! ```
+//! should print out the following:
+//! ```text
+//! Start: Addition of two integers
+//!     Start: Inner
+//!     End: Inner               ... 1ns
+//! End: Addition of two integers... 1ns
+//! ```
+//!
+//! Additionally, one can use the `add_to_trace` macro to log additional context 
+//! in the output.
 pub use self::inner::*;
-
-// This isn't needed except for use in the print-trace code below
-#[cfg(feature = "std")]
-extern crate std;
 
 #[macro_use]
 #[cfg(feature = "print-trace")]
@@ -31,7 +59,7 @@ pub mod inner {
     #[macro_export]
     macro_rules! start_timer {
         ($msg:expr) => {{
-            use $crate::inner::{
+            use $crate::perf_trace::inner::{
                 compute_indent, AtomicUsize, Colorize, Instant, Ordering, ToString, NUM_INDENT,
                 PAD_CHAR,
             };
@@ -41,9 +69,9 @@ pub mod inner {
             let indent_amount = 2 * NUM_INDENT.fetch_add(0, Ordering::Relaxed);
             let indent = compute_indent(indent_amount);
 
-            $crate::println!("{}{:8} {}", indent, start_info, msg);
+            $crate::perf_trace::println!("{}{:8} {}", indent, start_info, msg);
             NUM_INDENT.fetch_add(1, Ordering::Relaxed);
-            $crate::TimerInfo {
+            $crate::perf_trace::TimerInfo {
                 msg: msg.to_string(),
                 time: Instant::now(),
             }
@@ -56,7 +84,7 @@ pub mod inner {
             end_timer!($time, || "");
         }};
         ($time:expr, $msg:expr) => {{
-            use $crate::inner::{
+            use $crate::perf_trace::inner::{
                 compute_indent, format, AtomicUsize, Colorize, Instant, Ordering, ToString,
                 NUM_INDENT, PAD_CHAR,
             };
@@ -88,7 +116,7 @@ pub mod inner {
 
             // Todo: Recursively ensure that *entire* string is of appropriate
             // width (not just message).
-            $crate::println!(
+            $crate::perf_trace::println!(
                 "{}{:8} {:.<pad$}{}",
                 indent,
                 end_info,
@@ -102,7 +130,7 @@ pub mod inner {
     #[macro_export]
     macro_rules! add_to_trace {
         ($title:expr, $msg:expr) => {{
-            use $crate::{
+            use $crate::perf_trace::{
                 compute_indent, compute_indent_whitespace, format, AtomicUsize, Colorize, Instant,
                 Ordering, ToString, NUM_INDENT, PAD_CHAR,
             };
@@ -125,9 +153,9 @@ pub mod inner {
 
             // Todo: Recursively ensure that *entire* string is of appropriate
             // width (not just message).
-            $crate::println!("{}{}", start_indent, start_msg);
-            $crate::println!("{}{}", msg_indent, final_message,);
-            $crate::println!("{}{}", start_indent, end_msg);
+            $crate::perf_trace::println!("{}{}", start_indent, start_msg);
+            $crate::perf_trace::println!("{}{}", msg_indent, final_message,);
+            $crate::perf_trace::println!("{}{}", start_indent, end_msg);
         }};
     }
 
@@ -156,7 +184,7 @@ mod inner {
     #[macro_export]
     macro_rules! start_timer {
         ($msg:expr) => {
-            $crate::TimerInfo
+            $crate::perf_trace::TimerInfo
         };
     }
     #[macro_export]
