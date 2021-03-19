@@ -31,7 +31,7 @@
 //! End: Addition of two integers... 1ns
 //! ```
 //!
-//! Additionally, one can use the `add_to_trace` macro to log additional context 
+//! Additionally, one can use the `add_to_trace` macro to log additional context
 //! in the output.
 pub use self::inner::*;
 
