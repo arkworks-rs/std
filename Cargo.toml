@@ -27,3 +27,21 @@ default = [ "std" ]
 std = []
 parallel = [ "rayon", "std" ]
 print-trace = [ "std", "colored" ]
+
+[profile.bench]
+opt-level = 3
+debug = false
+rpath = false
+lto = "thin"
+incremental = true
+debug-assertions = false
+
+[profile.dev]
+opt-level = 0
+
+[profile.test]
+opt-level = 3
+lto = "thin"
+incremental = true
+debug-assertions = true
+debug = true
