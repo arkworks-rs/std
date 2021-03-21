@@ -47,6 +47,8 @@ pub use std::*;
 mod rand_helper;
 pub use rand_helper::*;
 
+pub mod perf_trace;
+
 /// Returns the ceiling of the base-2 logarithm of `x`.
 ///
 /// ```

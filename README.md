@@ -7,18 +7,11 @@
     <a href="https://deps.rs/repo/github/arkworks-rs/utils"><img src="https://deps.rs/repo/github/arkworks-rs/utils/status.svg"></a>
 </p>
 
-The arkworks ecosystem consist of Rust libraries for designing and working with __zero knowledge succinct non-interactive arguments (zkSNARKs)__. This repository contains efficient implementations some of the key algebraic components underlying zkSNARKs: finite fields, elliptic curves, and polynomials.
+The arkworks ecosystem consists of Rust libraries for designing and working with __zero knowledge succinct non-interactive arguments (zkSNARKs)__. This repository contains `ark-std`, a library that serves as a compatibility layer for `no_std` use cases, and also contains useful methods and types used by the rest of the arkworks ecosystem.
 
 This library is released under the MIT License and the Apache v2 License (see [License](#license)).
 
 **WARNING:** This is an academic proof-of-concept prototype, and in particular has not received careful code review. This implementation is NOT ready for production use.
-
-## Directory structure
-
-This repository contains several Rust crates: 
-
-* [`ark-std`](std): Provides implementations for `no_std` compatibility
-* [`bench-utils`](bench-utils): Provides helper functions for profiling performance in arkworks
 
 ## Build guide
 
@@ -49,7 +42,7 @@ cargo +nightly bench
 
 ## License
 
-The crates in this repo are licensed under either of the following licenses, at your discretion.
+The crates in this repository are licensed under either of the following licenses, at your discretion.
 
  * Apache License Version 2.0 ([LICENSE-APACHE](LICENSE-APACHE) or http://www.apache.org/licenses/LICENSE-2.0)
  * MIT license ([LICENSE-MIT](LICENSE-MIT) or http://opensource.org/licenses/MIT)

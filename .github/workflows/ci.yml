@@ -116,14 +116,5 @@ jobs:
 
       - name: ark-std
         run: |
-          cd std
           cargo build -p ark-std --no-default-features --target thumbv6m-none-eabi
           cargo check --examples -p ark-std --no-default-features --target thumbv6m-none-eabi
-          cd ..
-
-      - name: bench-utils
-        run: |
-          cd bench-utils
-          cargo build -p bench-utils --no-default-features --target thumbv6m-none-eabi
-          cargo check --examples -p bench-utils --no-default-features --target thumbv6m-none-eabi
-          cd ..
