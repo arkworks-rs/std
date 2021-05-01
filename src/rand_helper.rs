@@ -5,7 +5,6 @@ use rand::{
 };
 
 pub use rand;
-pub use rand_xorshift::XorShiftRng;
 
 pub trait UniformRand: Sized {
     fn rand<R: Rng + ?Sized>(rng: &mut R) -> Self;
