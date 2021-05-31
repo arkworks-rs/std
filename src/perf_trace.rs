@@ -97,11 +97,11 @@ pub mod inner {
                 let micros = final_time.subsec_micros() % 1000;
                 let nanos = final_time.subsec_nanos() % 1000;
                 if secs != 0 {
-                    format!("{}.{}s", secs, millis).bold()
+                    format!("{}.{:03}s", secs, millis).bold()
                 } else if millis > 0 {
-                    format!("{}.{}ms", millis, micros).bold()
+                    format!("{}.{:03}ms", millis, micros).bold()
                 } else if micros > 0 {
-                    format!("{}.{}µs", micros, nanos).bold()
+                    format!("{}.{:03}µs", micros, nanos).bold()
                 } else {
                     format!("{}ns", final_time.subsec_nanos()).bold()
                 }
