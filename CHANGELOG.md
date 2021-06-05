@@ -16,7 +16,7 @@
 
 ### Features
 
-- []() Re-export `num_traits::{One, Zero}` from `ark-std`.
+- [\#34](https://github.com/arkworks-rs/utils/pull/34) Re-export `num_traits::{One, Zero}` from `ark-std`.
 
 ### Improvements
 
