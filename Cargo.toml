@@ -1,6 +1,6 @@
 [package]
 name = "ark-std"
-version = "0.2.1-alpha.0"
+version = "0.3.0"
 authors = [ "arkworks contributors" ]
 description = "A library for no_std compatibility"
 homepage = "https://arkworks.rs"
@@ -16,7 +16,7 @@ edition = "2018"
 rand = { version = "0.8", default-features = false, features = ["std_rng"] }
 rayon = { version = "1", optional = true }
 colored = { version = "2", optional = true }
-
+num-traits = { version = "0.2", default-features = false }
 
 [features]
 default = [ "std" ]

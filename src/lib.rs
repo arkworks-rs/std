@@ -49,6 +49,8 @@ pub use rand_helper::*;
 
 pub mod perf_trace;
 
+pub use num_traits::{One, Zero};
+
 /// Returns the ceiling of the base-2 logarithm of `x`.
 ///
 /// ```
