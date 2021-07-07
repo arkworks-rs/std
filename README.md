@@ -1,4 +1,4 @@
-<h1 align="center">arkworks::utils</h1>
+<h1 align="center">arkworks::std</h1>
 
 <p align="center">
     <img src="https://github.com/arkworks-rs/utils/workflows/CI/badge.svg?branch=master">
@@ -7,7 +7,7 @@
     <a href="https://deps.rs/repo/github/arkworks-rs/utils"><img src="https://deps.rs/repo/github/arkworks-rs/utils/status.svg"></a>
 </p>
 
-The arkworks ecosystem consists of Rust libraries for designing and working with __zero knowledge succinct non-interactive arguments (zkSNARKs)__. This repository contains `ark-std`, a library that serves as a compatibility layer for `no_std` use cases, and also contains useful methods and types used by the rest of the arkworks ecosystem.
+The arkworks ecosystem consists of Rust libraries for designing and working with __zero knowledge succinct non-interactive arguments (zkSNARKs)__. This repository contains `ark-std`, a library that serves as a compatibility layer for `no_std` use cases, and also contains useful methods and types used by the rest of the `arkworks` ecosystem.
 
 This library is released under the MIT License and the Apache v2 License (see [License](#license)).
 
