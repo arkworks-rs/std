@@ -20,7 +20,7 @@ num-traits = { version = "0.2", default-features = false }
 
 [features]
 default = [ "std" ]
-std = []
+std = [ "rand/std" ]
 parallel = [ "rayon", "std" ]
 print-trace = [ "std", "colored" ]
 

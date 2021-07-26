@@ -2,6 +2,8 @@
 
 ### Breaking changes
 
+- [\#32](https://github.com/arkworks-rs/utils/pull/32) Change `test_rng` to return `impl Rng`, and make the output randomized by default when the `std` feature is set. Introduces a `DETERMINISTIC_TEST_RNG` environment variable that forces the old deterministic behavior when `DETERMINISTIC_TEST_RNG=1` is set.
+
 ### Features
 
 ### Improvements
