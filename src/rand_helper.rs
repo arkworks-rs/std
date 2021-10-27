@@ -1,10 +1,10 @@
+#[cfg(feature = "std")]
+use rand::RngCore;
 use rand::{
     distributions::{Distribution, Standard},
     prelude::StdRng,
     Rng,
 };
-#[cfg(feature = "std")]
-use rand::RngCore;
 
 pub use rand;
 
@@ -62,7 +62,7 @@ pub fn test_rng() -> impl rand::Rng {
 enum RngWrapper {
     Deterministic(StdRng),
     #[cfg(any(feature = "getrandom", test))]
-        Randomized(rand::rngs::ThreadRng),
+    Randomized(rand::rngs::ThreadRng),
 }
 
 #[cfg(feature = "std")]
