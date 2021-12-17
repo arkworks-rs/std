@@ -49,6 +49,8 @@ pub use rand_helper::*;
 
 pub mod perf_trace;
 
+pub mod iterable;
+
 pub use num_traits::{One, Zero};
 
 /// Returns the ceiling of the base-2 logarithm of `x`.
@@ -75,8 +77,9 @@ pub fn log2(x: usize) -> u32 {
 }
 
 /// Creates parallel iterator over refs if `parallel` feature is enabled.
-/// Additionally, if the object being iterated implements `IndexedParallelIterator`,
-/// then one can specify a minimum size for iteration.
+/// Additionally, if the object being iterated implements
+/// `IndexedParallelIterator`, then one can specify a minimum size for
+/// iteration.
 #[macro_export]
 macro_rules! cfg_iter {
     ($e: expr, $min_len: expr) => {{
@@ -100,8 +103,9 @@ macro_rules! cfg_iter {
 }
 
 /// Creates parallel iterator over mut refs if `parallel` feature is enabled.
-/// Additionally, if the object being iterated implements `IndexedParallelIterator`,
-/// then one can specify a minimum size for iteration.
+/// Additionally, if the object being iterated implements
+/// `IndexedParallelIterator`, then one can specify a minimum size for
+/// iteration.
 #[macro_export]
 macro_rules! cfg_iter_mut {
     ($e: expr, $min_len: expr) => {{
@@ -125,8 +129,9 @@ macro_rules! cfg_iter_mut {
 }
 
 /// Creates parallel iterator if `parallel` feature is enabled.
-/// Additionally, if the object being iterated implements `IndexedParallelIterator`,
-/// then one can specify a minimum size for iteration.
+/// Additionally, if the object being iterated implements
+/// `IndexedParallelIterator`, then one can specify a minimum size for
+/// iteration.
 #[macro_export]
 macro_rules! cfg_into_iter {
     ($e: expr, $min_len: expr) => {{
