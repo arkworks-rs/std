@@ -63,9 +63,9 @@ pub trait Iterable {
 
     ///  Returns the iterator associated to the current instance.
     ///
-    /// In the so-called _streaming model_, this is equivalent to instantiating
-    /// a new stream tape. For base types, this acts in the same way as the
-    /// `.iter()` method.
+    /// In the so-called _streaming model_ [BCHO22], this is equivalent to
+    /// instantiating a new stream tape.
+    /// For base types, this acts in the same way as the `.iter()` method.
     ///
     ///  ```
     /// use ark_std::iterable::Iterable;
