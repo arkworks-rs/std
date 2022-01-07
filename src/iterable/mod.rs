@@ -41,7 +41,7 @@
 /// For efficiency, functions using iterables are often times relying on
 /// [`Borrow`](std::borrow::Borrow) in order to avoid copying the entire items.
 ///
-/// The `Iter` trait itself has a lifetime that is independent from the
+/// The `Iter` associated type has a lifetime that is independent from that of the
 /// [`Iterable`] object. This means that implicitly a copy of the relevant
 /// contents of the object will happen whenever
 /// [`Iterable::iter`](crate::iterable::Iterable::iter) is called. This might
