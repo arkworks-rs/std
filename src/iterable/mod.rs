@@ -1,4 +1,4 @@
-//! A base library for iterfacing with streams of vectors and matrices.
+//! A base library for interfacing with streams of vectors and matrices.
 //!
 //! This library presents the abstraction layer for the _streaming model_.
 //! Essentially, it provides a set of handy utilities as a wrapper around
