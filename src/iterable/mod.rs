@@ -62,7 +62,7 @@ pub trait Iterable {
     /// The type of the iterator being generated.
     type Iter: Iterator<Item = Self::Item>;
 
-    ///  Returns the iterator associated to the current instance.
+    ///  Return the iterator associated to the current instance.
     ///
     /// In the so-called _streaming model_ [BCHO22], this is equivalent to
     /// instantiating a new stream tape.
