@@ -54,7 +54,7 @@
 /// A lot of stream operations must be performed symbolycally.
 /// We expect that, in the future, this trait will accomodate for additional
 /// streaming function, e.g. `Iterable::hadamard(&self, other: &Iterable)` to
-/// perform the hadamard product of two streams, or `Iterable::add(&self, other:
+/// perform the Hadamard product of two streams, or `Iterable::add(&self, other:
 /// &Iterable)` to perform the addition of two streams.
 pub trait Iterable {
     /// The type of the element being streamed.
