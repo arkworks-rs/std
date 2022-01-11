@@ -39,7 +39,8 @@
 /// # Efficency
 ///
 /// For efficiency, functions using iterables are often times relying on
-/// [`Borrow`](std::borrow::Borrow) in order to avoid copying the entire items.
+/// [`Borrow`](std::borrow::Borrow) in order to avoid copying the contents of
+/// the iterator..
 ///
 /// The `Iter` associated type has a lifetime that is independent from that of the
 /// [`Iterable`] object. This means that implicitly a copy of the relevant
