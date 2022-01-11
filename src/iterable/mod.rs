@@ -51,7 +51,7 @@
 ///
 /// # Future implementation
 ///
-/// A lot of stream operations must be performed symbolycally.
+/// A lot of stream operations must be performed symbolically.
 /// We expect that, in the future, this trait will accommodate for additional
 /// streaming function, e.g. `Iterable::hadamard(&self, other: &Iterable)` to
 /// perform the Hadamard product of two streams, or `Iterable::add(&self, other:
