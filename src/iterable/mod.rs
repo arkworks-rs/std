@@ -76,7 +76,7 @@ pub trait Iterable {
     ///  ```
     fn iter(&self) -> Self::Iter;
 
-    /// Returns a hint on the length of the stream.
+    /// Return a hint on the length of the stream.
     ///
     /// Careful: different objects might have different indications of what
     /// _length_ means; this might not be the actual size in terms of
