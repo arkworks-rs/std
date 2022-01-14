@@ -1,10 +1,10 @@
+#[cfg(feature = "std")]
+use rand::RngCore;
 use rand::{
     distributions::{Distribution, Standard},
     prelude::StdRng,
     Rng,
 };
-#[cfg(feature = "std")]
-use rand::{prelude::ThreadRng, RngCore};
 
 pub use rand;
 
@@ -41,12 +41,19 @@ pub fn test_rng() -> impl rand::Rng {
 /// Should be used only for tests, not for any real world usage.
 #[cfg(feature = "std")]
 pub fn test_rng() -> impl rand::Rng {
-    let is_deterministic =
-        std::env::vars().any(|(key, val)| key == "DETERMINISTIC_TEST_RNG" && val == "1");
-    if is_deterministic {
+    #[cfg(any(feature = "getrandom", test))]
+    {
+        let is_deterministic =
+            std::env::vars().any(|(key, val)| key == "DETERMINISTIC_TEST_RNG" && val == "1");
+        if is_deterministic {
+            RngWrapper::Deterministic(test_rng_helper())
+        } else {
+            RngWrapper::Randomized(rand::thread_rng())
+        }
+    }
+    #[cfg(not(any(feature = "getrandom", test)))]
+    {
         RngWrapper::Deterministic(test_rng_helper())
-    } else {
-        RngWrapper::Randomized(rand::thread_rng())
     }
 }
 
@@ -54,7 +61,8 @@ pub fn test_rng() -> impl rand::Rng {
 #[cfg(feature = "std")]
 enum RngWrapper {
     Deterministic(StdRng),
-    Randomized(ThreadRng),
+    #[cfg(any(feature = "getrandom", test))]
+    Randomized(rand::rngs::ThreadRng),
 }
 
 #[cfg(feature = "std")]
@@ -63,6 +71,7 @@ impl RngCore for RngWrapper {
     fn next_u32(&mut self) -> u32 {
         match self {
             Self::Deterministic(rng) => rng.next_u32(),
+            #[cfg(any(feature = "getrandom", test))]
             Self::Randomized(rng) => rng.next_u32(),
         }
     }
@@ -71,6 +80,7 @@ impl RngCore for RngWrapper {
     fn next_u64(&mut self) -> u64 {
         match self {
             Self::Deterministic(rng) => rng.next_u64(),
+            #[cfg(any(feature = "getrandom", test))]
             Self::Randomized(rng) => rng.next_u64(),
         }
     }
@@ -79,6 +89,7 @@ impl RngCore for RngWrapper {
     fn fill_bytes(&mut self, dest: &mut [u8]) {
         match self {
             Self::Deterministic(rng) => rng.fill_bytes(dest),
+            #[cfg(any(feature = "getrandom", test))]
             Self::Randomized(rng) => rng.fill_bytes(dest),
         }
     }
@@ -87,6 +98,7 @@ impl RngCore for RngWrapper {
     fn try_fill_bytes(&mut self, dest: &mut [u8]) -> Result<(), rand::Error> {
         match self {
             Self::Deterministic(rng) => rng.try_fill_bytes(dest),
+            #[cfg(any(feature = "getrandom", test))]
             Self::Randomized(rng) => rng.try_fill_bytes(dest),
         }
     }
