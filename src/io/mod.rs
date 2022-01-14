@@ -109,8 +109,8 @@ pub trait Read {
                 Ok(n) => {
                     let tmp = buf;
                     buf = &mut tmp[n..];
-                }
-                Err(ref e) if e.kind() == ErrorKind::Interrupted => {}
+                },
+                Err(ref e) if e.kind() == ErrorKind::Interrupted => {},
                 Err(e) => return Err(e),
             }
         }
@@ -204,9 +204,9 @@ pub trait Write {
                         ErrorKind::WriteZero,
                         "failed to write whole buffer",
                     ))
-                }
+                },
                 Ok(n) => buf = &buf[n..],
-                Err(ref e) if e.kind() == ErrorKind::Interrupted => {}
+                Err(ref e) if e.kind() == ErrorKind::Interrupted => {},
                 Err(e) => return Err(e),
             }
         }
