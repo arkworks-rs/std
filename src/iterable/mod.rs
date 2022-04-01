@@ -8,8 +8,7 @@
 /// an arbitrary number of streams of length [`Iterable::len`](Iterable::len).
 ///
 /// An Iterable is pretty much like an [`IntoIterator`] that can be copied over
-/// and over, and has an hint of the length.
-/// In other words, these two functions are pretty much equivalent.
+/// and over, and has an hint of the length.  Copies are meant to be shared across threads safely.
 ///
 /// # Examples
 ///
@@ -46,7 +45,8 @@
 /// [`Iterable`] object. This means that implicitly a copy of the relevant
 /// contents of the object will happen whenever
 /// [`Iterable::iter`](crate::iterable::Iterable::iter) is called. This might
-/// change in the future as associated type constructors [[RFC1598](https://github.com/rust-lang/rfcs/blob/master/text/1598-generic_associated_types.md#declaring--assigning-an-associated-type-constructor)]
+/// change in the future as associated type constructors
+/// [[RFC1598](https://github.com/rust-lang/rfcs/blob/master/text/1598-generic_associated_types.md#declaring--assigning-an-associated-type-constructor)]
 /// stabilize.
 ///
 /// # Future implementation
@@ -56,7 +56,7 @@
 /// streaming function, e.g. `Iterable::hadamard(&self, other: &Iterable)` to
 /// perform the Hadamard product of two streams, or `Iterable::add(&self, other:
 /// &Iterable)` to perform the addition of two streams.
-pub trait Iterable {
+pub trait Iterable: Send + Sync {
     /// The type of the element being streamed.
     type Item;
     /// The type of the iterator being generated.
@@ -91,7 +91,7 @@ pub trait Iterable {
 
 impl<I> Iterable for I
 where
-    I: IntoIterator + Copy,
+    I: IntoIterator + Copy + Send + Sync,
     I::IntoIter: ExactSizeIterator,
 {
     type Item = <I as IntoIterator>::Item;
