@@ -4,11 +4,15 @@
 //! Essentially, it provides a set of handy utilities as a wrapper around
 //! iterators.
 
+mod rev;
+pub use rev::Reverse;
+
 /// The trait [`Iterable`] represents a streamable object that can produce
 /// an arbitrary number of streams of length [`Iterable::len`](Iterable::len).
 ///
 /// An Iterable is pretty much like an [`IntoIterator`] that can be copied over
-/// and over, and has an hint of the length.  Copies are meant to be shared across threads safely.
+/// and over, and has an hint of the length.  Copies are meant to be shared
+/// across threads safely.
 ///
 /// # Examples
 ///
@@ -41,8 +45,8 @@
 /// [`Borrow`](std::borrow::Borrow) in order to avoid copying the contents of
 /// the iterator..
 ///
-/// The `Iter` associated type has a lifetime that is independent from that of the
-/// [`Iterable`] object. This means that implicitly a copy of the relevant
+/// The `Iter` associated type has a lifetime that is independent from that of
+/// the [`Iterable`] object. This means that implicitly a copy of the relevant
 /// contents of the object will happen whenever
 /// [`Iterable::iter`](crate::iterable::Iterable::iter) is called. This might
 /// change in the future as associated type constructors
