@@ -126,6 +126,6 @@ mod test {
         // Reset the rng by sampling a new one.
         let mut rng = super::test_rng();
         let b = u128::rand(&mut rng);
-        assert_eq!(a, b); // should be unequal with high probability.
+        assert_eq!(a, b); // should be equal with high probability.
     }
 }
