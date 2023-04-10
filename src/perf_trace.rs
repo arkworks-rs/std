@@ -183,14 +183,16 @@ mod inner {
 
     #[macro_export]
     macro_rules! start_timer {
-        ($msg:expr) => {
+        ($msg:expr) => {{
+            let _ = $msg;
             $crate::perf_trace::TimerInfo
-        };
+        }};
     }
     #[macro_export]
     macro_rules! add_to_trace {
         ($title:expr, $msg:expr) => {
             let _ = $msg;
+            let _ = $title;
         };
     }
 
