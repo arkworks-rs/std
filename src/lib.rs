@@ -47,7 +47,10 @@ pub use std::*;
 #[cfg(target_has_atomic = "ptr")]
 #[doc(hidden)]
 pub mod sync {
+    #[cfg(not(feature = "std"))]
     pub use alloc::sync::*;
+    #[cfg(feature = "std")]
+    pub use std::sync::*;
 }
 
 mod rand_helper;
