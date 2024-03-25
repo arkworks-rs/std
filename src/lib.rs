@@ -44,6 +44,12 @@ pub mod error;
 #[doc(hidden)]
 pub use std::*;
 
+#[cfg(target_has_atomic = "ptr")]
+#[doc(hidden)]
+pub mod sync {
+    pub use alloc::sync::*;
+}
+
 mod rand_helper;
 pub use rand_helper::*;
 
