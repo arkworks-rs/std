@@ -75,7 +75,8 @@ pub use num_traits::{One, Zero};
 /// assert_eq!(log2(1 << 15), 15);
 /// assert_eq!(log2(2usize.pow(18)), 18);
 /// ```
-pub fn log2(x: usize) -> u32 {
+#[inline(always)]
+pub const fn log2(x: usize) -> u32 {
     if x == 0 {
         0
     } else if x.is_power_of_two() {
