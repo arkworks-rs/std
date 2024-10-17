@@ -44,6 +44,15 @@ pub mod error;
 #[doc(hidden)]
 pub use std::*;
 
+#[cfg(target_has_atomic = "ptr")]
+#[doc(hidden)]
+pub mod sync {
+    #[cfg(not(feature = "std"))]
+    pub use alloc::sync::*;
+    #[cfg(feature = "std")]
+    pub use std::sync::*;
+}
+
 mod rand_helper;
 pub use rand_helper::*;
 
@@ -66,7 +75,8 @@ pub use num_traits::{One, Zero};
 /// assert_eq!(log2(1 << 15), 15);
 /// assert_eq!(log2(2usize.pow(18)), 18);
 /// ```
-pub fn log2(x: usize) -> u32 {
+#[inline(always)]
+pub const fn log2(x: usize) -> u32 {
     if x == 0 {
         0
     } else if x.is_power_of_two() {
