@@ -37,9 +37,6 @@ pub mod str {
 #[cfg(not(feature = "std"))]
 pub mod io;
 
-#[cfg(not(feature = "std"))]
-pub mod error;
-
 #[cfg(feature = "std")]
 #[doc(hidden)]
 pub use std::*;
