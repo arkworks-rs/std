@@ -1,5 +1,4 @@
 ## Pending
-- [\#47](https://github.com/arkworks-rs/std/pull/47) Fix incorrect use of atomic variable in `src/perf_trace.rs`
 
 ### Breaking changes
 
@@ -8,6 +7,17 @@
 ### Improvements
 
 ### Bug fixes
+
+## v0.5.0
+
+### Breaking changes
+
+### Features
+
+### Improvements
+
+### Bug fixes
+- [\#47](https://github.com/arkworks-rs/std/pull/47) Fix incorrect use of atomic variable in `src/perf_trace.rs`
 
 ## v0.4.0
 
