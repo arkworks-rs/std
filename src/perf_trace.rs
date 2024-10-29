@@ -66,10 +66,11 @@ pub mod inner {
 
             let msg = $msg();
             let start_info = "Start:".yellow().bold();
-            let indent_amount = 2 * NUM_INDENT.fetch_add(1, Ordering::Relaxed);
+            let indent_amount = 2 * NUM_INDENT.fetch_add(0, Ordering::Relaxed);
             let indent = compute_indent(indent_amount);
 
             $crate::perf_trace::println!("{}{:8} {}", indent, start_info, msg);
+            NUM_INDENT.fetch_add(1, Ordering::Relaxed);
             $crate::perf_trace::TimerInfo {
                 msg: msg.to_string(),
                 time: Instant::now(),
@@ -109,7 +110,8 @@ pub mod inner {
             let end_info = "End:".green().bold();
             let message = format!("{} {}", $time.msg, $msg());
 
-            let indent_amount = 2 * NUM_INDENT.fetch_sub(1, Ordering::Relaxed);
+            NUM_INDENT.fetch_sub(1, Ordering::Relaxed);
+            let indent_amount = 2 * NUM_INDENT.fetch_add(0, Ordering::Relaxed);
             let indent = compute_indent(indent_amount);
 
             // Todo: Recursively ensure that *entire* string is of appropriate
@@ -142,7 +144,7 @@ pub mod inner {
             let start_indent_amount = 2 * NUM_INDENT.fetch_add(0, Ordering::Relaxed);
             let start_indent = compute_indent(start_indent_amount);
 
-            let msg_indent_amount = start_indent_amount + 2;
+            let msg_indent_amount = 2 * NUM_INDENT.fetch_add(0, Ordering::Relaxed) + 2;
             let msg_indent = compute_indent_whitespace(msg_indent_amount);
             let mut final_message = "\n".to_string();
             for line in $msg().lines() {

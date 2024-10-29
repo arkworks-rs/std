@@ -1,5 +1,4 @@
 ## Pending
-- [\#47](https://github.com/arkworks-rs/std/pull/47) Fix incorrect use of atomic variable in `src/perf_trace.rs`
 
 ### Breaking changes
 
