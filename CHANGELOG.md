@@ -1,5 +1,7 @@
 ## Pending
 
+Set the Rand depenency to optional
+
 ### Breaking changes
 
 ### Features
