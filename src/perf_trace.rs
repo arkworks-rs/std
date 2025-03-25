@@ -1,6 +1,6 @@
 #![allow(unused_imports)]
-//! This module contains macros for logging to stdout a trace of wall-clock time required
-//! to execute annotated code. One can use this code as follows:
+//! This module contains macros for logging to stdout a trace of wall-clock time
+//! required to execute annotated code. One can use this code as follows:
 //! ```
 //! use ark_std::{start_timer, end_timer};
 //! let start = start_timer!(|| "Addition of two integers");
@@ -13,8 +13,8 @@
 //! End: Addition of two integers... 1ns
 //! ```
 //!
-//! These macros can be arbitrarily nested, and the nested nature is made apparent
-//! in the output. For example, the following snippet:
+//! These macros can be arbitrarily nested, and the nested nature is made
+//! apparent in the output. For example, the following snippet:
 //! ```
 //! use ark_std::{start_timer, end_timer};
 //! let start = start_timer!(|| "Addition of two integers");
@@ -162,7 +162,7 @@ pub mod inner {
     pub fn compute_indent_whitespace(indent_amount: usize) -> String {
         let mut indent = String::new();
         for _ in 0..indent_amount {
-            indent.push_str(" ");
+            indent.push(' ');
         }
         indent
     }
