@@ -1,6 +1,6 @@
 #![allow(unused_imports)]
-//! This module contains macros for logging to stdout a trace of wall-clock time required
-//! to execute annotated code. One can use this code as follows:
+//! This module contains macros for logging to stdout a trace of wall-clock time
+//! required to execute annotated code. One can use this code as follows:
 //! ```
 //! use ark_std::{start_timer, end_timer};
 //! let start = start_timer!(|| "Addition of two integers");
@@ -13,8 +13,8 @@
 //! End: Addition of two integers... 1ns
 //! ```
 //!
-//! These macros can be arbitrarily nested, and the nested nature is made apparent
-//! in the output. For example, the following snippet:
+//! These macros can be arbitrarily nested, and the nested nature is made
+//! apparent in the output. For example, the following snippet:
 //! ```
 //! use ark_std::{start_timer, end_timer};
 //! let start = start_timer!(|| "Addition of two integers");
@@ -159,6 +159,27 @@ pub mod inner {
         }};
     }
 
+    #[macro_export]
+    macro_rules! add_single_trace {
+        ($title:expr) => {{
+            use $crate::perf_trace::{
+                compute_indent, compute_indent_whitespace, format, AtomicUsize, Colorize, Instant,
+                Ordering, ToString, NUM_INDENT, PAD_CHAR,
+            };
+
+            let start_msg = "Trace".blue().bold();
+            let title = $title();
+            let start_msg = format!("{}: {}", start_msg, title);
+
+            let start_indent_amount = 2 * NUM_INDENT.fetch_add(0, Ordering::Relaxed);
+            let start_indent = compute_indent(start_indent_amount);
+
+            // Todo: Recursively ensure that *entire* string is of appropriate
+            // width (not just message).
+            $crate::perf_trace::println!("{}{}", start_indent, start_msg);
+        }};
+    }
+
     pub fn compute_indent_whitespace(indent_amount: usize) -> String {
         let mut indent = String::new();
         for _ in 0..indent_amount {
@@ -195,7 +216,13 @@ mod inner {
             let _ = $title;
         };
     }
-
+    #[macro_export]
+    macro_rules! add_single_trace {
+        ($msg:expr) => {{
+            let _ = $msg;
+            $crate::perf_trace::TimerInfo
+        }};
+    }
     #[macro_export]
     macro_rules! end_timer {
         ($time:expr, $msg:expr) => {
@@ -220,6 +247,7 @@ mod tests {
     #[test]
     fn print_add() {
         let start = start_timer!(|| "Hello");
+        add_single_trace!(|| "HelloWorld");
         add_to_trace!(|| "HelloMsg", || "Hello, I\nAm\nA\nMessage");
         end_timer!(start);
     }
