@@ -169,14 +169,14 @@ pub mod inner {
 
             let start_msg = "Trace".blue().bold();
             let title = $title();
-            let start_msg = format!("{}: {}", start_msg, title);
+            let start_msg = format!("{}:   {}", start_msg, title);
 
-            let start_indent_amount = 2 * NUM_INDENT.fetch_add(0, Ordering::Relaxed);
-            let start_indent = compute_indent(start_indent_amount);
+            let indent_amount = 2 * NUM_INDENT.fetch_add(0, Ordering::Relaxed);
+            let indent = compute_indent(indent_amount);
 
             // Todo: Recursively ensure that *entire* string is of appropriate
             // width (not just message).
-            $crate::perf_trace::println!("{}{}", start_indent, start_msg);
+            $crate::perf_trace::println!("{}{}", indent, start_msg);
         }};
     }
 
@@ -246,6 +246,7 @@ mod tests {
 
     #[test]
     fn print_add() {
+        add_single_trace!(|| "Hello");
         let start = start_timer!(|| "Hello");
         add_single_trace!(|| "HelloWorld");
         add_to_trace!(|| "HelloMsg", || "Hello, I\nAm\nA\nMessage");
