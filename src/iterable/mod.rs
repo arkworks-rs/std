@@ -39,7 +39,7 @@ pub use rev::Reverse;
 /// assert_eq!(f(xs), g(xs));
 /// ```
 ///
-/// # Efficency
+/// # Efficiency
 ///
 /// For efficiency, functions using iterables are often times relying on
 /// [`Borrow`](std::borrow::Borrow) in order to avoid copying the contents of
