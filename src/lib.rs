@@ -201,6 +201,17 @@ macro_rules! cfg_chunks_mut {
 /// # assert_eq!(two, 2);
 /// # assert_eq!(five, 5);
 /// ```
+///
+/// The macro can also be nested to join more than two closures:
+/// ```
+/// # use ark_std::cfg_join;
+///
+/// let (two, (five, seven)) =
+///     cfg_join!(|| { 1 + 1 }, || cfg_join!(|| { 2 + 3 }, || { 1 + 6 }));
+/// # assert_eq!(two, 2);
+/// # assert_eq!(five, 5);
+/// # assert_eq!(seven, 7);
+/// ```
 #[macro_export]
 macro_rules! cfg_join {
     ($e1: expr, $e2: expr) => {{

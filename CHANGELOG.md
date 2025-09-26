@@ -5,6 +5,7 @@
 ### Features
 
 ### Improvements
+- [\#65](https://github.com/arkworks-rs/std/pull/65) Add the `cfg_join` macro for executing two closures (potentially in parallel).
 
 ### Bug fixes
 
