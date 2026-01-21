@@ -50,7 +50,9 @@ pub mod sync {
     pub use std::sync::*;
 }
 
+#[cfg(feature = "std")]
 mod rand_helper;
+#[cfg(feature = "std")]
 pub use rand_helper::*;
 
 pub mod perf_trace;
