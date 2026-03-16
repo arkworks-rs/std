@@ -191,6 +191,40 @@ macro_rules! cfg_chunks_mut {
     }};
 }
 
+/// Executes two closures. If `parallel` feature is enabled, the closures
+/// are executed in parallel using `rayon::join`. Otherwise, they are
+/// executed sequentially. The result is returned as a tuple.
+///
+/// ```rust
+/// # use ark_std::cfg_join;
+/// let (two, five) = cfg_join!(|| { 1 + 1 }, || { 2 + 3 });
+/// # assert_eq!(two, 2);
+/// # assert_eq!(five, 5);
+/// ```
+///
+/// The macro can also be nested to join more than two closures:
+/// ```
+/// # use ark_std::cfg_join;
+///
+/// let (two, (five, seven)) =
+///     cfg_join!(|| { 1 + 1 }, || cfg_join!(|| { 2 + 3 }, || { 1 + 6 }));
+/// # assert_eq!(two, 2);
+/// # assert_eq!(five, 5);
+/// # assert_eq!(seven, 7);
+/// ```
+#[macro_export]
+macro_rules! cfg_join {
+    ($e1: expr, $e2: expr) => {{
+        #[cfg(feature = "parallel")]
+        let result = rayon::join($e1, $e2);
+
+        #[cfg(not(feature = "parallel"))]
+        let result = ($e1(), $e2());
+
+        result
+    }};
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
@@ -220,5 +254,15 @@ mod test {
         cfg_iter_mut!(&mut thing, 3).for_each(|i| *i += 1);
         println!("Iterating By Value");
         cfg_into_iter!(thing, 3).for_each(|i| println!("{:?}", i));
+
+        println!("Joining");
+        cfg_join!(
+            || {
+                println!("In first");
+            },
+            || {
+                println!("In second");
+            }
+        );
     }
 }

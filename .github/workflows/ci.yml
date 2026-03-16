@@ -12,22 +12,21 @@ jobs:
     name: Check Style
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+          components: rustfmt
 
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Install Rust
-      uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-        toolchain: stable
-        override: true
-        components: rustfmt
-
-    - name: cargo fmt --check
-      uses: actions-rs/cargo@v1
-      with:
-        command: fmt
-        args: --all -- --check
+      - name: cargo fmt --check
+        uses: actions-rs/cargo@v1
+        with:
+          command: fmt
+          args: --all -- --check
 
   test:
     name: Test
@@ -50,7 +49,7 @@ jobs:
           toolchain: ${{ matrix.rust }}
           override: true
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         with:
           path: |
             ~/.cargo/registry
@@ -61,29 +60,29 @@ jobs:
       - name: Check examples
         uses: actions-rs/cargo@v1
         with:
-            command: check
-            args: --examples --all
+          command: check
+          args: --examples --all
 
       - name: Check examples with all features on stable
         uses: actions-rs/cargo@v1
         with:
-            command: check
-            args: --examples --all-features --all
+          command: check
+          args: --examples --all-features --all
         if: matrix.rust == 'stable'
 
       - name: Check benchmarks on nightly
         uses: actions-rs/cargo@v1
         with:
-            command: check
-            args: --all-features --examples --all --benches
+          command: check
+          args: --all-features --examples --all --benches
         if: matrix.rust == 'nightly'
 
       - name: Test
         uses: actions-rs/cargo@v1
         with:
-            command: test
-            args: "--all \
-                   --all-features"
+          command: test
+          args: "--all \
+            --all-features"
 
   check_no_std:
     name: Check no_std
@@ -106,7 +105,7 @@ jobs:
           target: aarch64-unknown-none
           override: true
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         with:
           path: |
             ~/.cargo/registry
