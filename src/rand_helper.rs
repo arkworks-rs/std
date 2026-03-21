@@ -1,7 +1,7 @@
 #[cfg(feature = "std")]
 use rand::RngCore;
 use rand::{
-    distributions::{Distribution, Standard},
+    distr::{Distribution, StandardUniform},
     prelude::StdRng,
     Rng,
 };
@@ -14,11 +14,11 @@ pub trait UniformRand: Sized {
 
 impl<T> UniformRand for T
 where
-    Standard: Distribution<T>,
+    StandardUniform: Distribution<T>,
 {
     #[inline]
     fn rand<R: Rng + ?Sized>(rng: &mut R) -> Self {
-        rng.sample(Standard)
+        rng.sample(StandardUniform)
     }
 }
 
@@ -48,7 +48,7 @@ pub fn test_rng() -> impl rand::Rng {
         if is_deterministic {
             RngWrapper::Deterministic(test_rng_helper())
         } else {
-            RngWrapper::Randomized(rand::thread_rng())
+            RngWrapper::Randomized(rand::rng())
         }
     }
     #[cfg(not(any(feature = "getrandom", test)))]
@@ -91,15 +91,6 @@ impl RngCore for RngWrapper {
             Self::Deterministic(rng) => rng.fill_bytes(dest),
             #[cfg(any(feature = "getrandom", test))]
             Self::Randomized(rng) => rng.fill_bytes(dest),
-        }
-    }
-
-    #[inline(always)]
-    fn try_fill_bytes(&mut self, dest: &mut [u8]) -> Result<(), rand::Error> {
-        match self {
-            Self::Deterministic(rng) => rng.try_fill_bytes(dest),
-            #[cfg(any(feature = "getrandom", test))]
-            Self::Randomized(rng) => rng.try_fill_bytes(dest),
         }
     }
 }
