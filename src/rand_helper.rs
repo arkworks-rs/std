@@ -93,7 +93,6 @@ impl RngCore for RngWrapper {
             Self::Randomized(rng) => rng.fill_bytes(dest),
         }
     }
-
 }
 
 #[cfg(all(test, feature = "std"))]
